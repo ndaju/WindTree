@@ -1,10 +1,8 @@
 # Investigation
 
-## Baseline
+## Launch failure (fixed)
 
-- The repository was initially a standalone WPF .NET 8 project without Git metadata.
-- `dotnet build WindTree.slnx` and its two tests passed before the WPF UI integration.
-- `WPF-UI` 4.3.0 was restored from NuGet and exposes `FluentWindow`, `Button`, `Card`, `SymbolIcon`, and `ApplicationThemeManager` for `net8.0-windows`.
+The process stayed alive with no main window because the WPF UI rewrite removed `StartupUri="MainWindow.xaml"` from `App.xaml`. Restoring it exposed a second runtime exception: WPF UI 4.3.0 rejects `WindowBackdropType="Mica"` while `ExtendsContentIntoTitleBar` is false. The application now uses the default FluentWindow backdrop and its normal title bar. This preserves WPF UI styling without a startup-only visual effect.
 
 ## WFP boundary
 

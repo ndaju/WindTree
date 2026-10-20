@@ -39,7 +39,7 @@ public partial class MainWindow : FluentWindow
             ThemePreference.Light => ApplicationTheme.Light,
             _ => ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark ? ApplicationTheme.Dark : ApplicationTheme.Light
         };
-        ApplicationThemeManager.Apply(theme, WindowBackdropType.Mica, true);
+        ApplicationThemeManager.Apply(theme, WindowBackdropType.None, true);
     }
     private void Refresh()
     {
@@ -133,6 +133,8 @@ public partial class MainWindow : FluentWindow
         return result.Success;
     }
 }
+
+
 
 
 
