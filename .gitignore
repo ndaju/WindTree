@@ -1,0 +1,10 @@
+# Build output
+bin/
+obj/
+publish/
+
+# User settings and local tools
+.vs/
+*.user
+*.suo
+*.userosscache

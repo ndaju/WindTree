@@ -1,0 +1,2 @@
+using System; using System.IO; namespace WindTree.Services; public static class ApplicationIdentity{public static string Normalize(string path){var f=Path.GetFullPath(path);if(!File.Exists(f)||!string.Equals(Path.GetExtension(f),".exe",StringComparison.OrdinalIgnoreCase))throw new ArgumentException("Select an existing executable file.",nameof(path));return f;}public static bool Same(string a,string b)=>StringComparer.OrdinalIgnoreCase.Equals(Path.GetFullPath(a),Path.GetFullPath(b));}
+

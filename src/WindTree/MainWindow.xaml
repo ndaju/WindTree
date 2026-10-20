@@ -1,0 +1,76 @@
+<ui:FluentWindow x:Class="WindTree.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Title="WindTree" Height="760" Width="1160" MinHeight="560" MinWidth="840"
+                 WindowBackdropType="Mica">
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="ShieldCheckmark24" FontSize="30" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBlock Text="WindTree" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock x:Name="EnforcementText" Margin="2,7,0,0" Opacity="0.72" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:Button Appearance="Secondary" Click="RefreshProcesses_Click" Margin="0,0,8,0" ToolTip="Show runnable processes">
+                    <ui:Button.Icon><ui:SymbolIcon Symbol="Apps24" /></ui:Button.Icon>
+                    Refresh processes
+                </ui:Button>
+                <ui:Button Appearance="Primary" Click="AddApplication_Click">
+                    <ui:Button.Icon><ui:SymbolIcon Symbol="Add24" /></ui:Button.Icon>
+                    Add application
+                </ui:Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,26,0,20">
+            <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+            <ui:Card Margin="0,0,12,0" Padding="18"><StackPanel><TextBlock Text="Managed applications" Opacity=".72"/><TextBlock x:Name="ManagedCount" FontSize="28" FontWeight="SemiBold" Margin="0,6,0,0"/></StackPanel></ui:Card>
+            <ui:Card Grid.Column="1" Margin="0,0,12,0" Padding="18"><StackPanel><TextBlock Text="Blocked" Opacity=".72"/><TextBlock x:Name="BlockedCount" FontSize="28" FontWeight="SemiBold" Margin="0,6,0,0"/></StackPanel></ui:Card>
+            <ui:Card Grid.Column="2" Margin="0,0,12,0" Padding="18"><StackPanel><TextBlock Text="Allowed" Opacity=".72"/><TextBlock x:Name="AllowedCount" FontSize="28" FontWeight="SemiBold" Margin="0,6,0,0"/></StackPanel></ui:Card>
+            <ui:Card Grid.Column="3" Padding="18"><StackPanel><TextBlock Text="Needs attention" Opacity=".72"/><TextBlock x:Name="AttentionCount" FontSize="28" FontWeight="SemiBold" Margin="0,6,0,0"/></StackPanel></ui:Card>
+        </Grid>
+
+        <ui:Card Grid.Row="2" Padding="0">
+            <Grid Margin="20">
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="260"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="Applications" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <ui:TextBox x:Name="SearchBox" Grid.Column="1" PlaceholderText="Search managed applications" TextChanged="Search_TextChanged" />
+                </Grid>
+                <Grid Grid.Row="1" Margin="0,18,0,0">
+                    <ListView x:Name="Applications" BorderThickness="0" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Application" Width="220" DisplayMemberBinding="{Binding DisplayName}" />
+                                <GridViewColumn Header="Executable path" Width="390" DisplayMemberBinding="{Binding Path}" />
+                                <GridViewColumn Header="Requested policy" Width="130" DisplayMemberBinding="{Binding DesiredPolicy}" />
+                                <GridViewColumn Header="Confirmed status" Width="170" DisplayMemberBinding="{Binding Status}" />
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ContextMenu><ContextMenu><MenuItem Header="Allow" Click="Allow_Click"/><MenuItem Header="Block" Click="Block_Click"/><Separator/><MenuItem Header="Remove WindTree rule" Click="Remove_Click"/></ContextMenu></ListView.ContextMenu>
+                    </ListView>
+                    <StackPanel x:Name="EmptyState" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                        <ui:SymbolIcon Symbol="Apps24" FontSize="44" HorizontalAlignment="Center" Opacity=".6" />
+                        <TextBlock Text="No managed applications yet" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,12,0,4"/>
+                        <TextBlock Text="Add an executable to make an explicit Allow or Block decision." Opacity=".72" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ui:Card>
+
+        <TextBlock Grid.Row="3" Margin="2,18,2,0" TextWrapping="Wrap" Opacity=".68" Text="Blocked rules apply at Windows Filtering Platform authorization layers for IPv4 and IPv6. Existing connections may remain until reauthorized." />
+    </Grid>
+</ui:FluentWindow>
+
